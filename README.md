@@ -10,7 +10,7 @@ For further information you may want to check:
 * https://curl.se/libcurl/c/
 * https://www.openssl.org/docs/
 
-# Was tested with
+# was tested with
 
 * OpenSSL 1.1.1
 * libcurl 7.58.0
