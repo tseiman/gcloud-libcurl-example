@@ -9,7 +9,7 @@
  *
  * Description:
  *
- *
+ * Parses JSON from the config file and from the JWT response
  *
  * ****************************************************************************
  * **************************************************************************** **/
@@ -27,13 +27,17 @@
 #include "readJSON.h"
 #include <htmlClient.h>
 
-#define JSON_MAX_CONFIG_PARAM 32
-#define JSON_MAX_SESSION_PARAM 32
+/* ---------------------------------------------------------------------------  */
 
+
+#define JSON_MAX_CONFIG_PARAM 32
+#define JSON_MAX_SESSION_PARAM 8
+
+/* ---------------------------------------------------------------------------  */
 #define JSON_GET_VALUE t[i + 1].end - t[i + 1].start, jsonBuffer + t[i + 1].start
 #define JSON_COMPARE(parameter) jsoneq(jsonBuffer, &t[i],parameter)
 
-#define ERROR_EXIT(code) LOG_ERR("ERROR - exiting"); result=code; goto EXIT;
+#define ERROR_EXIT(code) { LOG_ERR("ERROR - exiting"); result=code; goto EXIT; }
 
 
 #define JSON_ALLOCATE_AND_COPY_VALUE(field)  if(! (field = MALLOC(t[i + 1].end - t[i + 1].start + 1))) goto EXIT; \
@@ -44,16 +48,17 @@
 #define JSON_CONFIG_FREE(field) FREE(config->field);
 
 /** ****************************************************************************
- * Function: returns 
- *
+ * Function: 
+ * returns TRUE in case the actual processed JSON token equals the searched one
  *
  * Parameter:
- * -
- * -
- * -
+ * - char *json --> the complete JSON char* buffer 
+ * - jsmntok_t *tok --> the actual JASMN token given by the token itheration
+ * - const char *s --> the searched token
  *
  * Returns:
- *
+ *  TRUE   : if searched and JSMN token are matching
+ *  FALSE  : if not matching
  **/
 static int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
     if (tok->type == JSMN_STRING && (int)strlen(s) == tok->end - tok->start && strncmp(json + tok->start, s, tok->end - tok->start) == 0) {
@@ -84,7 +89,7 @@ static int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
 int readGCloudConfig(char *file, t_Config *config) {
     int result = EXIT_FAILURE;
     jsmn_parser p;
-    jsmntok_t t[JSON_MAX_CONFIG_PARAM]; /* We expect no more than 32 JSON tokens */
+    jsmntok_t t[JSON_MAX_CONFIG_PARAM]; 
     FILE *f = NULL;
     long length;
     int r, i;
@@ -98,6 +103,7 @@ int readGCloudConfig(char *file, t_Config *config) {
     config->auth_uri = NULL;
     config->scope = NULL;
     config->token_uri = NULL;
+    config->pubsub_topic_url = NULL;
     config->expire = 0;
 
     if (access(file, F_OK) != 0) {
@@ -157,8 +163,8 @@ int readGCloudConfig(char *file, t_Config *config) {
         } else if (JSON_COMPARE("token_uri")) {
             JSON_ALLOCATE_AND_COPY_VALUE(config->token_uri);
             i++;
-        }  else if (JSON_COMPARE("pubsub_topic")) {
-            JSON_ALLOCATE_AND_COPY_VALUE(config->pubsub_topic);
+        }  else if (JSON_COMPARE("pubsub_topic_url")) {
+            JSON_ALLOCATE_AND_COPY_VALUE(config->pubsub_topic_url);
             i++;
         } else if (JSON_COMPARE("private_key")) {
             JSON_ALLOCATE_AND_COPY_VALUE(config->private_key);
@@ -204,7 +210,7 @@ void cleanJSONConfig(t_Config *config) {
         JSON_CONFIG_FREE(auth_uri);
         JSON_CONFIG_FREE(scope);
         JSON_CONFIG_FREE(token_uri);
-        JSON_CONFIG_FREE(pubsub_topic);
+        JSON_CONFIG_FREE(pubsub_topic_url);
 }
 
 /** ****************************************************************************
@@ -227,23 +233,8 @@ int parseJWTTokenResponse(char *jsonBuffer, t_CloudSessionState *sessionState) {
     int result = EXIT_FAILURE;
     int r, i;
     jsmn_parser p;
-    jsmntok_t t[JSON_MAX_SESSION_PARAM]; /* We expect no more than 32 JSON tokens */
-   // static char *jsonBuffer;
+    jsmntok_t t[JSON_MAX_SESSION_PARAM]; 
     
-
-    
-    if(!jsonBuffer && !sessionState) {      // we only free the buffer when file and config is null
-       // FREE(jsonBuffer);
-        return EXIT_SUCCESS;
-    }                                   // free the buffer is returning this function
-/*
-    if (!(jsonBuffer = MALLOC(strlen(buffer)))) { 
-        LOG_ERR("Error allocate Memory");
-        ERROR_EXIT(ENOMEM);
-    }
-    strcpy(jsonBuffer, buffer);
-*/
-
     jsmn_init(&p);
     r = jsmn_parse(&p, jsonBuffer, strlen(jsonBuffer), t, JSON_MAX_SESSION_PARAM);
 
@@ -259,8 +250,6 @@ int parseJWTTokenResponse(char *jsonBuffer, t_CloudSessionState *sessionState) {
     }
 
     for (i = 1; i < r; i++) {
-        jsonBuffer[t[i + 1].end] = '\0'; /* HACK - we just terminate strings in the buffer to avoid that we have to handle multible allocated buffers*/
-
         if (JSON_COMPARE("expires_in")) {
             LOG_DEBUG("- expires_in: %.*s", JSON_GET_VALUE);
             sessionState->expires_in = strtoull(jsonBuffer + t[i + 1].start, NULL , 10);
@@ -275,9 +264,7 @@ int parseJWTTokenResponse(char *jsonBuffer, t_CloudSessionState *sessionState) {
     }
     result = EXIT_SUCCESS;
 EXIT:
- //   FREE(jsonBuffer);
     return result;
-
 }
 
 /** ****************************************************************************

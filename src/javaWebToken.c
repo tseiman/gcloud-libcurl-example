@@ -39,24 +39,27 @@
 #define JWT_CONFIG_CHECK_INT(parameter) if(config->parameter == 0 ) { LOG_ERR("\"" #parameter "\" is not defined - may it was missing in JSON config file ?");  goto JWT_GENERATE_ERROR; } 
 
 
-/* found here  https://stackoverflow.com/questions/55422628/how-to-convert-openssl-rsa-structure-to-char-and-back */
-/*
-RSA* rsaFromPrivateKey(const char* aKey) {
-     RSA* rsa = NULL;
-     BIO *bio = BIO_new_mem_buf(aKey, strlen(aKey));
-    if(! PEM_read_bio_RSAPrivateKey(bio, &rsa, 0, 0)) LOG_ERR("Wasn't able to get key from string: %s",aKey);
-     BIO_free_all(bio);
-     return rsa;
-}
-*/
-/* found here  https://www.bmt-online.org/rsa-verify.html */
-int sign_data(
-        const void *buf,    /* input data: byte array */
-        size_t buf_len, 
-        void *pkey,         /* input private key: byte array of the PEM representation */
-        size_t pkey_len,
-        void **out_sig,     /* output signature block, allocated in the function */
-        size_t *out_sig_len) {
+
+/** ****************************************************************************
+ * Function: 
+ * signs the JWT header and claim
+ * found here  https://stackoverflow.com/questions/55422628/how-to-convert-openssl-rsa-structure-to-char-and-back
+ * and here found here  https://www.bmt-online.org/rsa-verify.html
+ *  
+ * Parameter:
+ * - const void *buf     --> input data byte array
+ * - size_t buf_len      --> input data length
+ * - void *pkey          --> input private key: byte array of the PEM representation 
+ * - size_t pkey_len     --> private key length
+ * - void **out_sig      --> output signature block, allocated in the function 
+ * - size_t *out_sig_len --> output signature length
+ * 
+ * Returns: Integer
+ *  EXIT_SUCCESS (=0) if everything was OK
+ *  EXIT_FAILURE (=1) if something failed
+ * 
+ **/
+int sign_data(const void *buf, size_t buf_len, void *pkey, size_t pkey_len, void **out_sig, size_t *out_sig_len) {
 
     int status = EXIT_SUCCESS;
     int rc = 1;
@@ -102,6 +105,19 @@ SHA256_SIGN_ERROR:
     return status;
 }
 
+/** ****************************************************************************
+ * Function: 
+ * Generates and assembles a JWT
+ * 
+ * Parameter:
+ * - char **jwt         --> here the allocated buffer for the 
+ *                          JWT will be assigned (to be freed externally !)
+ * - t_Config *config   --> the configuration struct
+ * 
+ * Returns: Integer
+ * EXIT_SUCCESS (=0) on success
+ * EXIT_FAILURE (!=0) or other 
+ **/
 
 int generateJWT(char **jwt, t_Config *config) {
     ssize_t encStrLen, strLen;
@@ -140,7 +156,7 @@ int generateJWT(char **jwt, t_Config *config) {
 
     /* Generate JWT claim set */
     strLen = snprintf(NULL, 0, JWT_CLAIM_FORMAT, config->client_email,config->scope, config->token_uri,config->expire + (unsigned long) time(NULL), (unsigned long) time(NULL));
-    if(! (jwtClaim = MALLOC(strLen + 1)))  goto JWT_GENERATE_ERROR;
+    if(! (jwtClaim = MALLOC(strLen + 2)))  goto JWT_GENERATE_ERROR;
     snprintf(jwtClaim, strLen + 1, JWT_CLAIM_FORMAT, config->client_email, config->scope, config->token_uri, config->expire + (unsigned long) time(NULL), (unsigned long) time(NULL) );
    
     encStrLen = Base64encode_len(strlen(jwtClaim));
@@ -148,12 +164,6 @@ int generateJWT(char **jwt, t_Config *config) {
     Base64URLencode(jwtClaimEnc,jwtClaim,strlen(jwtClaim));
 
     LOG_DEBUG("JWT Claim:  %s\n JWT Claim encoded:  %s",jwtClaim, jwtClaimEnc);
-
-    // encStrLen = strlen(jwtClaimEnc);
-
-
-
-   // LOG_DEBUG("> %s", jwtClaimEnc);
 
     /* concat the JWT header and the claim set */
     
@@ -177,10 +187,7 @@ int generateJWT(char **jwt, t_Config *config) {
         goto JWT_GENERATE_ERROR;
     }
 
-
     /* Concat header + claim with signature */
-
-
 
     if(! (*jwt = MALLOC(strlen(strToSign_HeaderDotClaim) + 1 + strlen(signatureB64)))) goto JWT_GENERATE_ERROR;
     strcpy(*jwt, strToSign_HeaderDotClaim);
@@ -189,8 +196,8 @@ int generateJWT(char **jwt, t_Config *config) {
 
 
     result = EXIT_SUCCESS;
-JWT_GENERATE_ERROR:
 
+JWT_GENERATE_ERROR:
     FREE(jwtHeaderEnc);
     FREE(jwtClaimEnc);
     FREE(jwtClaim);

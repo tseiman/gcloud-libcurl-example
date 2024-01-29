@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="199.92253mm"
+   height="179.47104mm"
+   viewBox="0 0 199.92253 179.47104"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <rect
+       x="-46.983292"
+       y="24.126554"
+       width="855.85779"
+       height="782.20831"
+       id="rect23" />
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="3"
+       markerHeight="3"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path11" />
+    </marker>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter4"
+       x="-0.29741959"
+       y="-0.077092541"
+       width="1.5948392"
+       height="1.1541851">
+      <feGaussianBlur
+         stdDeviation="1.1753987"
+         id="feGaussianBlur4" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter5"
+       x="-0.27326661"
+       y="-0.031376523"
+       width="1.5465332"
+       height="1.062753">
+      <feGaussianBlur
+         stdDeviation="1.0395981"
+         id="feGaussianBlur5" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter6"
+       x="-0.25601204"
+       y="-0.018347074"
+       width="1.5120241"
+       height="1.0366941">
+      <feGaussianBlur
+         stdDeviation="1.0319623"
+         id="feGaussianBlur6" />
+    </filter>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle-0"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="3"
+       markerHeight="3"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path11-4" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle-0-8"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="3"
+       markerHeight="3"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path11-4-3" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle-0-1"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="3"
+       markerHeight="3"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path11-4-0" />
+    </marker>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter18"
+       x="-0.10736858"
+       y="-0.019729201"
+       width="1.2147372"
+       height="1.0394584">
+      <feGaussianBlur
+         stdDeviation="0.43986938"
+         id="feGaussianBlur18" />
+    </filter>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle-6"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="3"
+       markerHeight="3"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path11-45" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle-6-1"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="3"
+       markerHeight="3"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path11-45-2" />
+    </marker>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-4.207865,-28.537096)">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.465;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:1.86, 0.93;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 68.731658,28.893665 V 207.63122"
+       id="path7" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.460609;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:1.84244, 0.921218;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 175.01937,30.16946 V 205.5473"
+       id="path7-8" />
+    <g
+       id="g7"
+       transform="matrix(0.99760371,0,0,1.012256,-10.561034,-0.2796609)">
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.433;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter6)"
+         id="rect3-3"
+         width="9.6741915"
+         height="134.99207"
+         x="74.493027"
+         y="51.267441"
+         ry="1.3011284" />
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.433;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3"
+         width="9.6741915"
+         height="134.99207"
+         x="74.788467"
+         y="51.270367"
+         ry="1.3011284" />
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.465;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:1.86, 0.93;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 23.156474,59.844096 V 208.00813"
+       id="path7-7" />
+    <g
+       id="g19"
+       transform="translate(-9.5250005,5.8208336)">
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.274832;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter18)"
+         id="rect3-9-5"
+         width="9.8323593"
+         height="53.508831"
+         x="27.775888"
+         y="109.28005"
+         ry="0.51574779" />
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.269338;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3-9"
+         width="9.5018806"
+         height="53.178352"
+         x="27.984018"
+         y="109.24675"
+         ry="0.51256245" />
+    </g>
+    <g
+       id="g5">
+      <rect
+         style="mix-blend-mode:normal;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.345188;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter5)"
+         id="rect3-0-99"
+         width="9.7620029"
+         height="85.01992"
+         x="170.52522"
+         y="51.099575"
+         ry="0.81946915" />
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.345188;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3-0"
+         width="9.7620029"
+         height="85.01992"
+         x="170.73094"
+         y="51.181961"
+         ry="0.81946915" />
+    </g>
+    <g
+       id="g6">
+      <rect
+         style="mix-blend-mode:normal;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.232;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter4)"
+         id="rect3-0-9-2"
+         width="9.8747931"
+         height="38.096512"
+         x="170.49535"
+         y="149.55095"
+         ry="0.36719534" />
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.232398;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3-0-9"
+         width="9.8747931"
+         height="38.096512"
+         x="170.65065"
+         y="149.68376"
+         ry="0.36719534" />
+    </g>
+    <g
+       id="g9">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.165;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.66, 0.33;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect7"
+         width="58.123302"
+         height="12.095021"
+         x="39.98077"
+         y="28.893665"
+         ry="0.51574779" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
+         x="42.668549"
+         y="37.486179"
+         id="text7"><tspan
+           id="tspan7"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="42.668549"
+           y="37.486179">IoT Device App</tspan></text>
+    </g>
+    <g
+       id="g9-9"
+       transform="translate(-45.575184,30.950431)">
+      <g
+         id="g20"
+         transform="translate(6.3834842,-6.0475113)">
+        <g
+           id="g21"
+           transform="translate(-0.52916663)">
+          <rect
+             style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.183683;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.734732, 0.367365;stroke-dashoffset:0;stroke-opacity:1"
+             id="rect7-8"
+             width="37.610023"
+             height="23.16448"
+             x="44.021847"
+             y="32.59819"
+             ry="0.9877643" />
+          <text
+             xml:space="preserve"
+             style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
+             x="62.722462"
+             y="37.486179"
+             id="text7-0"><tspan
+               id="tspan7-7"
+               style="font-size:5.64444px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="62.722462"
+               y="37.486179">e.g.</tspan><tspan
+               style="font-size:5.64444px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="62.722462"
+               y="44.541729"
+               id="tspan20">IoT Device </tspan><tspan
+               style="font-size:5.64444px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+               x="62.722462"
+               y="51.597279"
+               id="tspan19">System API</tspan></text>
+        </g>
+      </g>
+    </g>
+    <g
+       id="g9-0"
+       transform="translate(105.94277,-0.27406939)">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.165;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.66, 0.33;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect7-6"
+         width="58.123302"
+         height="12.095021"
+         x="39.98077"
+         y="28.893665"
+         ry="0.51574779" />
+      <text
+         xml:space="preserve"
+         style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';stroke-width:0.264583"
+         x="69.173752"
+         y="37.486179"
+         id="text7-2"><tspan
+           style="font-size:7.05556px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+           x="69.173752"
+           y="37.486179"
+           id="tspan9">GCP Servers</tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#ConcaveTriangle)"
+       d="M 80.476554,61.819005 H 94.251432"
+       id="path10" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#ConcaveTriangle-0)"
+       d="M 164.25836,87.266047 H 74.217645"
+       id="path10-9" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:1.46, 1.46;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#ConcaveTriangle-0-8)"
+       d="M 80.772466,113.2666 H 170.81318"
+       id="path10-9-9" />
+    <g
+       id="g13"
+       transform="translate(-6.879167)">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.365001;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect13"
+         width="38.972851"
+         height="17.470589"
+         x="93.73642"
+         y="52.411762"
+         ry="0.51574779" />
+      <text
+         xml:space="preserve"
+         style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         x="114.37497"
+         y="58.938026"
+         id="text11"><tspan
+           style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+           x="114.37497"
+           y="58.938026"
+           id="tspan12">create and </tspan><tspan
+           style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+           x="114.37497"
+           y="65.993576"
+           id="tspan13">sign JWT</tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#ConcaveTriangle-6)"
+       d="M 35.146367,126.9525 H 63.368078"
+       id="path10-2" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#ConcaveTriangle-6-1)"
+       d="M 56.30545,156.67925 H 28.083739"
+       id="path10-2-2" />
+    <g
+       id="g13-8"
+       transform="translate(12.297433,159.20589)">
+      <g
+         id="g22">
+        <g
+           id="g23"
+           transform="translate(-79.375005,-79.375004)">
+          <text
+             xml:space="preserve"
+             style="font-size:4.93889px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+             x="112.55233"
+             y="58.938026"
+             id="text11-07"><tspan
+               style="font-size:4.93889px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+               x="112.55233"
+               y="58.938026"
+               id="tspan13-9">obtain KPIs</tspan><tspan
+               style="font-size:4.93889px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+               x="112.55233"
+               y="65.111641"
+               id="tspan21">from system</tspan><tspan
+               style="font-size:4.93889px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+               x="112.55233"
+               y="71.285248"
+               id="tspan22">APIs</tspan></text>
+        </g>
+      </g>
+    </g>
+    <g
+       id="g25">
+      <g
+         id="g24">
+        <g
+           id="g13-9"
+           transform="translate(-24.108685,26.000936)">
+          <rect
+             style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.495047;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+             id="rect13-3"
+             width="49.052036"
+             height="25.533937"
+             x="107.04102"
+             y="47.170509"
+             ry="0.75378519" />
+          <text
+             xml:space="preserve"
+             style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+             x="131.30827"
+             y="54.704693"
+             id="text11-0"><tspan
+               style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+               x="131.30827"
+               y="54.704693"
+               id="tspan13-3">use JWT to</tspan><tspan
+               style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+               x="131.30827"
+               y="61.760242"
+               id="tspan14">request OAuth2</tspan><tspan
+               style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+               x="131.30827"
+               y="68.815796"
+               id="tspan15">token</tspan></text>
+        </g>
+      </g>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#ConcaveTriangle-0-1)"
+       d="M 163.94337,167.92935 H 73.902648"
+       id="path10-9-4" />
+    <g
+       id="g13-9-0"
+       transform="translate(-24.423682,106.66424)">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.446539;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect13-3-3"
+         width="40.988686"
+         height="24.861992"
+         x="109.7288"
+         y="47.170509"
+         ry="0.73394877" />
+      <text
+         xml:space="preserve"
+         style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         x="131.30827"
+         y="54.704693"
+         id="text11-0-1"><tspan
+           style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+           x="131.30827"
+           y="54.704693"
+           id="tspan13-3-7">use token to</tspan><tspan
+           style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+           x="131.30827"
+           y="61.760242"
+           id="tspan14-9">call GCP API</tspan><tspan
+           style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+           x="131.30827"
+           y="68.815796"
+           id="tspan15-4">e.g. pub/sub</tspan></text>
+    </g>
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.44802;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect13-3-8"
+       width="43.004524"
+       height="23.854071"
+       x="119.01574"
+       y="101.69603"
+       ry="0.70419407" />
+    <text
+       xml:space="preserve"
+       style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+       x="141.26717"
+       y="107.21438"
+       id="text11-0-6"><tspan
+         style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         x="141.26717"
+         y="107.21438"
+         id="tspan15-6">on success</tspan><tspan
+         style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         x="141.26717"
+         y="114.26993"
+         id="tspan17">response with </tspan><tspan
+         style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         x="141.26717"
+         y="121.32548"
+         id="tspan18">OAuth2 token</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text23"
+       style="font-size:39.9999px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';white-space:pre;shape-inside:url(#rect23)" />
+  </g>
+</svg>

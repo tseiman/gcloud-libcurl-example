@@ -11,5 +11,6 @@
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gcp-service-account-123%40gcp-project-123456.iam.gserviceaccount.com",
   "universe_domain": "googleapis.com",
   "scope": "https://www.googleapis.com/auth/pubsub",
-  "expire": 3600
+  "expire": 3600,
+  "pubsub_topic_url": "https://pubsub.googleapis.com/v1/projects/<MY PROJECT>/topics/<MY TOPIC>:publish"
 }

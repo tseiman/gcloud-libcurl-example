@@ -23,15 +23,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
-#include <alloc.h>
-#include <htmlClient.h>
-#include <javaWebToken.h>
-#include <messages.h>
-#include <readJSON.h>
-
-#include <base64url.h>
 #include <string.h>
+
+#include "alloc.h"
+#include "htmlClient.h"
+#include "javaWebToken.h"
+#include "messages.h"
+#include "readJSON.h"
+#include "base64url.h"
+#include "dataSource.h"
+
 int verbosity = 0;
 
 int main(int argc, char **argv) {
@@ -39,6 +40,7 @@ int main(int argc, char **argv) {
     int c;
     char *gCloudJSONFile = NULL;
     char *jwt = NULL;
+    char *data; 
     int jwtResult = 0;
     int result = EXIT_FAILURE;
     int repeatJWT = 0;
@@ -71,23 +73,45 @@ int main(int argc, char **argv) {
     }
 
     LOG_INFO_MSG_WITH_OK("Loading file %s",gCloudJSONFile);
-    if (readGCloudConfig(gCloudJSONFile, &config))
+    if (readGCloudConfig(gCloudJSONFile, &config)) { 
+        LOG_INFO_FAIL();
         goto EXIT;
+    }
     LOG_INFO_OK();
 
     LOG_INFO_MSG_WITH_OK("Generate JWT");
-    if (generateJWT(&jwt, &config))
+    if (generateJWT(&jwt, &config)) { 
+        LOG_INFO_FAIL();
         goto EXIT;
+    }
     LOG_INFO_OK();
 
     LOG_INFO_MSG_WITH_OK("Request OAuth2 token from cloud service via HTTP POST and JWT");
-    if (httpPostJWT(jwt, &config, &sessionState)) 
+    if (httpPostJWT(jwt, &config, &sessionState)) { 
+        LOG_INFO_FAIL();
         goto EXIT;
+    }
+    LOG_INFO_OK();
+
+
+    LOG_INFO_MSG_WITH_OK("Getting Data");
+    if ( getData(&data, &config)) {
+        LOG_INFO_FAIL();
+        goto EXIT;
+    }
+    LOG_INFO_OK();
+
+    LOG_INFO_MSG_WITH_OK("Sending data to GCP");
+    if ( httpPostData(data, &config, &sessionState)) {
+        LOG_INFO_FAIL();
+        goto EXIT;
+    }
     LOG_INFO_OK();
 
     result = EXIT_SUCCESS;
 EXIT:
     FREE(jwt);
+    FREE(data);
     cleanJWTTokenResponse(&sessionState);
     cleanJSONConfig(&config);
     return result;

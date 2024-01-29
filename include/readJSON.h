@@ -1,4 +1,20 @@
 
+
+/** ***************************************************************************
+ *  ***************************************************************************
+ *
+ * readJSON.h is part of the project: FILLME 
+ * Project Page: https://github.com/tseiman/
+ * Author: Thomas Schmidt
+ * Copyright (c) 2024 
+ *
+ * Description:
+ *
+ * check readJSON.c for further information
+ *
+ * ****************************************************************************
+ * **************************************************************************** **/
+
 #ifndef READ_JSON_H
 #define READ_JSON_H
 #include "session.h"
@@ -11,7 +27,7 @@ struct Config {
   char *auth_uri;
   char *scope;
   char *token_uri;
-  char *pubsub_topic;
+  char *pubsub_topic_url;
   unsigned long expire;
 
 };

@@ -1,5 +1,8 @@
 {
     "cmake.configureOnOpen": true,
     "cmake.options.statusBarVisibility": "visible",
-    "C_Cpp.errorSquiggles": "enabled"
+    "C_Cpp.errorSquiggles": "enabled",
+    "files.associations": {
+        "alloc.h": "c"
+    }
 }

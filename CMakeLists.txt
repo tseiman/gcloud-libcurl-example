@@ -13,6 +13,7 @@ set(SOURCES
   src/readJSON.c
   src/javaWebToken.c
   src/base64url.c
+  src/dataSource.c
 )
 add_executable(cloud-libcurl-example ${SOURCES})
 

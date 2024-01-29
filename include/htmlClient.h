@@ -23,6 +23,6 @@
 
 
 int httpPostJWT(char *jwt, t_Config *config, t_CloudSessionState *sessionState);
-
+int httpPostData(char *data, t_Config *config, t_CloudSessionState *sessionState);
 
 #endif
