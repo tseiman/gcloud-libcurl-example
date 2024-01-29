@@ -101,9 +101,9 @@ int readGCloudConfig(char *file, t_Config *config) {
     config->expire = 0;
 
     if (access(file, F_OK) != 0) {
-        fprintf(stderr, "Can't access JSON file %s: \n", file);
-        errno = ENOENT; /* checking file exists and is accessible */
-        return 0;
+        LOG_ERR( "Can't access JSON file: %s, failure: %s", file, strerror(errno));
+//        errno = ENOENT; /* checking file exists and is accessible */
+        return ENOENT;
     }
 
     f = fopen(file, "rb");
