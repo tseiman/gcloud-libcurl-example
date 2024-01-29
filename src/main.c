@@ -35,16 +35,15 @@
 int verbosity = 0;
 
 int main(int argc, char **argv) {
-    int   index;
-    int   c;
-    char *gCloudJSONFile  = NULL;
-    char *jwt             = NULL;
-    int   printJWT        = 0;
-    int   jwtResult       = 0;
-    int   result          = EXIT_FAILURE;
-    int   repeatJWT       = 0;
-    t_Config            config          = {0};
-    t_CloudSessionState sessionState    = {0}; 
+    int index;
+    int c;
+    char *gCloudJSONFile = NULL;
+    char *jwt = NULL;
+    int jwtResult = 0;
+    int result = EXIT_FAILURE;
+    int repeatJWT = 0;
+    t_Config config = {0};
+    t_CloudSessionState sessionState = {0};
 
     opterr = 0;
 
@@ -52,16 +51,13 @@ int main(int argc, char **argv) {
         PRINT_MSG_HELP_AND_EXIT(argv[0]);
     }
 
-    while ((c = getopt(argc, argv, "k:v:hp")) != -1) {
+    while ((c = getopt(argc, argv, "k:v:h")) != -1) {
         switch (c) {
         case 'k':
             gCloudJSONFile = optarg;
             continue;
         case 'v':
             verbosity = atoi(optarg);
-            continue;
-        case 'p':
-            printJWT = 1;
             continue;
         case 'h':
         default:
@@ -70,29 +66,29 @@ int main(int argc, char **argv) {
     }
 
     if (gCloudJSONFile == NULL) {
-
         LOG_ERR("GCloud Key config file not given - exiting.");
-        exit(EINVAL);
+        exit(EXIT_FAILURE);
     }
 
-    if (readGCloudConfig(gCloudJSONFile, &config)) {
-        cleanJSONConfig();
-        exit(EINVAL);
-    }
+    LOG_INFO_MSG_WITH_OK("Loading file %s",gCloudJSONFile);
+    if (readGCloudConfig(gCloudJSONFile, &config))
+        goto EXIT;
+    LOG_INFO_OK();
 
+    LOG_INFO_MSG_WITH_OK("Generate JWT");
     if (generateJWT(&jwt, &config))
         goto EXIT;
-    LOG_INFO("JWT: (len:%ld) %s", strlen(jwt), jwt);
+    LOG_INFO_OK();
 
-    if (printJWT)
-        printf("%s", jwt);
-
-    httpPostJWT(jwt, &config, &sessionState);
+    LOG_INFO_MSG_WITH_OK("Request OAuth2 token from cloud service via HTTP POST and JWT");
+    if (httpPostJWT(jwt, &config, &sessionState)) 
+        goto EXIT;
+    LOG_INFO_OK();
 
     result = EXIT_SUCCESS;
 EXIT:
     FREE(jwt);
-    cleanJSONConfig();
-    cleanJWTTokenResponse();
+    cleanJWTTokenResponse(&sessionState);
+    cleanJSONConfig(&config);
     return result;
 }

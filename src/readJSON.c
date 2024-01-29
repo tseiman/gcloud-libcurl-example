@@ -33,6 +33,16 @@
 #define JSON_GET_VALUE t[i + 1].end - t[i + 1].start, jsonBuffer + t[i + 1].start
 #define JSON_COMPARE(parameter) jsoneq(jsonBuffer, &t[i],parameter)
 
+#define ERROR_EXIT(code) LOG_ERR("ERROR - exiting"); result=code; goto EXIT;
+
+
+#define JSON_ALLOCATE_AND_COPY_VALUE(field)  if(! (field = MALLOC(t[i + 1].end - t[i + 1].start + 1))) goto EXIT; \
+              strncpy(field, jsonBuffer + t[i + 1].start, t[i + 1].end - t[i + 1].start); \
+              field[t[i + 1].end - t[i + 1].start ] = '\0'; \
+              LOG_DEBUG("- " #field ": %s", field);
+
+#define JSON_CONFIG_FREE(field) FREE(config->field);
+
 /** ****************************************************************************
  * Function: returns 
  *
@@ -58,20 +68,12 @@ static int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
  * configuration download and additional parameters (see sample JSON 
  * config file) and parses it. The relevant parameters are extracted 
  * and writen to the t_Config *config struct wich is externally allocated
- *
- *  !! CAREFULL: !!
- * the buffer which is loaded from the file is kind of indexed with jsmn.h -
- * as we do not want to allocate new buffers for each element we just map 
- * the pointers into the struct - if we free this buffer also the config 
- * struct parameters are empty. To encapsulate the buffer in this function 
- * scope it is marked as static. The buffer is allocated in this function 
- * when it is loaded from file.
- * TO FREE THE CONFIG JSON BUFFER:
- * call this function with file and config pointer set to NULL
+ * each char* field of the config struct is allocated here and might be freed
+ * with cleanJSONConfig()
  * 
  * Parameter:
- * - char *file --> config file path and file   (set to NULL to free the JSON buffer)
- * - t_Config *config  --> config struct allocated externally  (set to NULL to free the JSON buffer)
+ * - char *file --> config file path and file  
+ * - t_Config *config  --> config struct allocated externally  
  *
  * Returns: EXIT_SUCCESS (=0) 
  *          ENOENT if config file can't be opened
@@ -80,6 +82,7 @@ static int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
  *
  **/
 int readGCloudConfig(char *file, t_Config *config) {
+    int result = EXIT_FAILURE;
     jsmn_parser p;
     jsmntok_t t[JSON_MAX_CONFIG_PARAM]; /* We expect no more than 32 JSON tokens */
     FILE *f = NULL;
@@ -88,10 +91,7 @@ int readGCloudConfig(char *file, t_Config *config) {
     static char *jsonBuffer = NULL;     // we remember the buffer for the program lifetime 
                                         // because just map the pointers to the config struct
 
-    if(!file && !config) {                         // we only free the buffer when file and config is null
-        FREE(jsonBuffer);
-        return EXIT_SUCCESS;
-    }                                   // free the buffer is returning this function
+
 
     config->client_email = NULL;
     config->private_key = NULL;
@@ -102,90 +102,91 @@ int readGCloudConfig(char *file, t_Config *config) {
 
     if (access(file, F_OK) != 0) {
         LOG_ERR( "Can't access JSON file: %s, failure: %s", file, strerror(errno));
-//        errno = ENOENT; /* checking file exists and is accessible */
-        return ENOENT;
+        ERROR_EXIT(ENOENT);
     }
 
     f = fopen(file, "rb");
 
-    if (f) {
+    
+    if (!f) {
+         LOG_ERR("file open failed %s", file);
+         ERROR_EXIT(ENFILE)
+    }
         fseek(f, 0, SEEK_END);
         length = ftell(f);
         fseek(f, 0, SEEK_SET);
-        if (!(jsonBuffer = MALLOC(length)))
-            return EXIT_FAILURE;
-        // jsonBuffer = MALLOC(length);
+        if (!(jsonBuffer = MALLOC(length))) { 
+            LOG_ERR("Error allocate Memory");
+            ERROR_EXIT(ENOMEM);
+        }
 
         if (jsonBuffer) {
             if (!fread(jsonBuffer, 1, length, f)) {
                 LOG_ERR("cant read file %s", file);
-                return ENOENT;
+                ERROR_EXIT(ENOENT);
             }
         }
         fclose(f);
-    }
-
+    
     jsmn_init(&p);
     r = jsmn_parse(&p, jsonBuffer, strlen(jsonBuffer), t, JSON_MAX_CONFIG_PARAM);
 
     if (r < 0) {
         LOG_ERR("Failed to parse JSON: %d", r);
-        return ECANCELED;
+        ERROR_EXIT(ECANCELED);
     }
 
     /* Assume the top-level element is an object */
     if (r < 1 || t[0].type != JSMN_OBJECT) {
         LOG_ERR("JSON Object expected");
-        return ECANCELED;
+        ERROR_EXIT(ECANCELED);
     }
 
     /* Loop over all keys of the root object */
     for (i = 1; i < r; i++) {
-        jsonBuffer[t[i + 1].end] = '\0'; /* HACK - we just terminate strings in the buffer to avoid that we have to handle multible allocated buffers*/
 
         if (JSON_COMPARE("client_email")) {
-            LOG_DEBUG("- client_email: %.*s", JSON_GET_VALUE);
-            config->client_email = jsonBuffer + t[i + 1].start;
+            JSON_ALLOCATE_AND_COPY_VALUE(config->client_email);
             i++;
         } else if (JSON_COMPARE("auth_uri")) {
-            LOG_DEBUG("- auth_uri: %.*s", t[i + 1].end - t[i + 1].start, jsonBuffer + t[i + 1].start);
-            config->auth_uri = jsonBuffer + t[i + 1].start;
-            i++;
+            JSON_ALLOCATE_AND_COPY_VALUE(config->auth_uri);
+            i++; 
         } else if (JSON_COMPARE("scope")) {
-            LOG_DEBUG("- scope: %.*s", t[i + 1].end - t[i + 1].start, jsonBuffer + t[i + 1].start);
-            config->scope = jsonBuffer + t[i + 1].start;
+            JSON_ALLOCATE_AND_COPY_VALUE(config->scope);
             i++;
         } else if (JSON_COMPARE("token_uri")) {
-            LOG_DEBUG("- token_uri: %.*s", t[i + 1].end - t[i + 1].start, jsonBuffer + t[i + 1].start);
-            config->token_uri = jsonBuffer + t[i + 1].start;
+            JSON_ALLOCATE_AND_COPY_VALUE(config->token_uri);
+            i++;
+        }  else if (JSON_COMPARE("pubsub_topic")) {
+            JSON_ALLOCATE_AND_COPY_VALUE(config->pubsub_topic);
             i++;
         } else if (JSON_COMPARE("private_key")) {
-
-            LOG_DEBUG("- private_key: %.*s", t[i + 1].end - t[i + 1].start, jsonBuffer + t[i + 1].start);
+            JSON_ALLOCATE_AND_COPY_VALUE(config->private_key);
 
             int offset = 0;
-            for (int j = (t[i + 1].start); j <= (t[i + 1].end); ++j) { // this substitutes the "\n" string to a real newline in the private key
-                if ((jsonBuffer[j] == '\\') && (jsonBuffer[j + 1] == 'n')) {
-                    jsonBuffer[j - offset] = '\n'; // substitute the '\' from "\n" by a real newline
+            for (int j = 0; j <= strlen(config->private_key); ++j) { // this substitutes the "\n" string to a real newline in the private key
+                if ((config->private_key[j] == '\\') && (config->private_key[j + 1] == 'n')) {
+                    config->private_key[j - offset] = '\n'; // substitute the '\' from "\n" by a real newline
                     ++offset;                      // each place we find "\n" we shorten the string by 1 byte - because we exchange "\n" to a real newline
                     ++j;                           // jump over the 'n' from "\n"
                 } else {
-                    jsonBuffer[j - offset] = jsonBuffer[j]; // now because everything gets shorten by 1 byte when having found "\n" we need to move the rest of the buffer by 1 byte
+                    config->private_key[j - offset] = config->private_key[j]; // now because everything gets shorten by 1 byte when having found "\n" we need to move the rest of the buffer by 1 byte
                                                             // left for each found "\n"
                 }
             }
-
-            LOG_DEBUG("- private_key: %.*s", t[i + 1].end - t[i + 1].start, jsonBuffer + t[i + 1].start);
-
-            config->private_key = jsonBuffer + t[i + 1].start;
             i++;
         } else if (JSON_COMPARE("expire")) {
             config->expire = strtoull(jsonBuffer + t[i + 1].start, NULL, 10);
             LOG_DEBUG("- expire: %lu", config->expire);
             i++;
         }
+           
     }
-    return EXIT_SUCCESS;
+
+    result = EXIT_SUCCESS;
+EXIT:
+    FREE(jsonBuffer);
+    return result;
 }
 
 /** ****************************************************************************
@@ -197,8 +198,13 @@ int readGCloudConfig(char *file, t_Config *config) {
  * Returns: none
  *
  **/
-void cleanJSONConfig(void) {
-    readGCloudConfig(NULL,NULL);
+void cleanJSONConfig(t_Config *config) {
+        JSON_CONFIG_FREE(client_email);
+        JSON_CONFIG_FREE(private_key);
+        JSON_CONFIG_FREE(auth_uri);
+        JSON_CONFIG_FREE(scope);
+        JSON_CONFIG_FREE(token_uri);
+        JSON_CONFIG_FREE(pubsub_topic);
 }
 
 /** ****************************************************************************
@@ -206,20 +212,10 @@ void cleanJSONConfig(void) {
  * Takes a JSON buffer returned from the HTTP POST response body and extracts
  * relevant parameters to t_CloudSessionState *sessionState.
  *
- * !! CAREFULL: !!
- * the buffer which is loaded from the is given by buffer parameter is kind of 
- * indexed with jsmn.h - as we do not want to allocate new buffers for each 
- * element we just map the pointers into the sessionState struct - if we free 
- * this buffer also the sessionState struct parameters are empty. 
- * To encapsulate the buffer in this function scope it is marked as static. 
- * The buffer is allocated in this function.
- * TO FREE THE Session JSON BUFFER:
- * call this function with buffer and sessionState pointer set to NULL
-
  * 
  * Parameter:
- * - char *buffer --> buffer with the HTTP response (JSON) (set to NULL for free the memory)
- * - t_CloudSessionState *sessionState  --> session struct allocated externally (set to NULL for free the memory
+ * - char *buffer --> buffer with the HTTP response (JSON)
+ * - t_CloudSessionState *sessionState  --> session struct allocated externally 
  *
  * Returns: EXIT_SUCCESS (=0) 
  *          ENOENT if config file can't be opened
@@ -227,36 +223,39 @@ void cleanJSONConfig(void) {
  *          EXIT_FAILURE on any other issue
  *
  **/
-int parseJWTTokenResponse(char *buffer, t_CloudSessionState *sessionState) {
+int parseJWTTokenResponse(char *jsonBuffer, t_CloudSessionState *sessionState) {
     int result = EXIT_FAILURE;
     int r, i;
     jsmn_parser p;
     jsmntok_t t[JSON_MAX_SESSION_PARAM]; /* We expect no more than 32 JSON tokens */
-    static char *jsonBuffer;
+   // static char *jsonBuffer;
     
 
     
-    if(!buffer && !sessionState) {      // we only free the buffer when file and config is null
-        FREE(jsonBuffer);
+    if(!jsonBuffer && !sessionState) {      // we only free the buffer when file and config is null
+       // FREE(jsonBuffer);
         return EXIT_SUCCESS;
     }                                   // free the buffer is returning this function
-
-    jsonBuffer = MALLOC(strlen(buffer));
+/*
+    if (!(jsonBuffer = MALLOC(strlen(buffer)))) { 
+        LOG_ERR("Error allocate Memory");
+        ERROR_EXIT(ENOMEM);
+    }
     strcpy(jsonBuffer, buffer);
-
+*/
 
     jsmn_init(&p);
     r = jsmn_parse(&p, jsonBuffer, strlen(jsonBuffer), t, JSON_MAX_SESSION_PARAM);
 
     if (r < 0) {
         LOG_ERR("Failed to parse JSON: %d", r);
-        return ECANCELED;
+        ERROR_EXIT(ECANCELED);
     }
 
     /* Assume the top-level element is an object */
     if (r < 1 || t[0].type != JSMN_OBJECT) {
         LOG_ERR("JSON Object expected");
-        return ECANCELED;
+        ERROR_EXIT(ECANCELED);
     }
 
     for (i = 1; i < r; i++) {
@@ -267,16 +266,17 @@ int parseJWTTokenResponse(char *buffer, t_CloudSessionState *sessionState) {
             sessionState->expires_in = strtoull(jsonBuffer + t[i + 1].start, NULL , 10);
             i++;
         } else if (JSON_COMPARE("token_type")) {
-            LOG_DEBUG("- token_type: %.*s", JSON_GET_VALUE);
-            sessionState->token_type = jsonBuffer + t[i + 1].start;
+            JSON_ALLOCATE_AND_COPY_VALUE(sessionState->token_type);
             i++;
         } else if (JSON_COMPARE("access_token")) {
-            LOG_DEBUG("- access_token: %.*s", JSON_GET_VALUE);
-            sessionState->access_token = jsonBuffer + t[i + 1].start;
+            JSON_ALLOCATE_AND_COPY_VALUE(sessionState->access_token);
             i++;
         }
     }
-    return EXIT_SUCCESS;
+    result = EXIT_SUCCESS;
+EXIT:
+ //   FREE(jsonBuffer);
+    return result;
 
 }
 
@@ -289,6 +289,7 @@ int parseJWTTokenResponse(char *buffer, t_CloudSessionState *sessionState) {
  * Returns: none
  *
  **/
-void cleanJWTTokenResponse(void) {
-    parseJWTTokenResponse(NULL,NULL);
+void cleanJWTTokenResponse(t_CloudSessionState *sessionState) {
+    FREE(sessionState->token_type);
+    FREE(sessionState->access_token);
 }

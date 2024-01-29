@@ -134,8 +134,8 @@ int generateJWT(char **jwt, t_Config *config) {
     /* Generate JWT Header */
     encStrLen = Base64encode_len(strlen(JWT_HEADER));
     if(! (jwtHeaderEnc = MALLOC(encStrLen)))  goto JWT_GENERATE_ERROR;
-    Base64encode(jwtHeaderEnc,JWT_HEADER,strlen(JWT_HEADER));
-    LOG_INFO("JWT Header:  %s\n JWT Header encoded:  %s",JWT_HEADER, jwtHeaderEnc);
+    Base64URLencode(jwtHeaderEnc,JWT_HEADER,strlen(JWT_HEADER));
+    LOG_DEBUG("JWT Header:  %s\n JWT Header encoded:  %s",JWT_HEADER, jwtHeaderEnc);
 
 
     /* Generate JWT claim set */
@@ -145,9 +145,9 @@ int generateJWT(char **jwt, t_Config *config) {
    
     encStrLen = Base64encode_len(strlen(jwtClaim));
     if(! (jwtClaimEnc = MALLOC(encStrLen))) goto JWT_GENERATE_ERROR;
-    Base64encode(jwtClaimEnc,jwtClaim,strlen(jwtClaim));
+    Base64URLencode(jwtClaimEnc,jwtClaim,strlen(jwtClaim));
 
-    LOG_INFO("JWT Claim:  %s\n JWT Claim encoded:  %s",jwtClaim, jwtClaimEnc);
+    LOG_DEBUG("JWT Claim:  %s\n JWT Claim encoded:  %s",jwtClaim, jwtClaimEnc);
 
     // encStrLen = strlen(jwtClaimEnc);
 
@@ -168,9 +168,9 @@ int generateJWT(char **jwt, t_Config *config) {
  
     encStrLen = Base64encode_len(signatureOutLen);
     if(! (signatureB64 = MALLOC(encStrLen))) goto JWT_GENERATE_ERROR;
-    Base64encode(signatureB64,signatureOut,signatureOutLen);
+    Base64URLencode(signatureB64,signatureOut,signatureOutLen);
 
-    LOG_INFO("JWT signature (Base64 len: %ld,  signature binary out len: %ld):  %s",strlen(signatureB64), signatureOutLen , signatureB64);
+    LOG_DEBUG("JWT signature (Base64 len: %ld,  signature binary out len: %ld):  %s",strlen(signatureB64), signatureOutLen , signatureB64);
 
     if(strlen(signatureB64) <342) {
         LOG_ERR("Generation from JWT signature failed !");

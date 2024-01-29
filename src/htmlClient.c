@@ -84,6 +84,7 @@ int httpPostJWT(char *jwt, t_Config *config, t_CloudSessionState *sessionState) 
     char *postParam;
     long http_code = 0;
     responseBuffer_t httpResultBuffer = {0};
+    int result = EXIT_FAILURE;
 
     curl_global_init(CURL_GLOBAL_ALL);
 
@@ -122,10 +123,11 @@ int httpPostJWT(char *jwt, t_Config *config, t_CloudSessionState *sessionState) 
         goto ERROR_POST_JWT;
     }
 
+    result = EXIT_SUCCESS;
+
 ERROR_POST_JWT:
     curl_global_cleanup();
     FREE(postParam);
     FREE(httpResultBuffer.response);
-
-    return EXIT_SUCCESS;
+    return result;
 }

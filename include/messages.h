@@ -41,6 +41,15 @@ extern int verbosity;
 #define LOG_DEBUG(_fmt,...)       if(verbosity > 1) fprintf(stdout, "[DEBUG]   " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , __FILE__, __LINE__)
 #define LOG_INFO(_fmt,...)        if(verbosity > 0) fprintf(stdout, "[INFO]    " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , __FILE__, __LINE__)
 #define LOG_ERR(_fmt,...)         fprintf(stderr, "[ERROR]   " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , __FILE__, __LINE__)
+
+#define STRINGIZE(x) STRINGIZE2(x)
+#define STRINGIZE2(x) #x
+#define LINE_STRING STRINGIZE(__LINE__)
+
+#define LOG_INFO_MSG_WITH_OK(_fmt,...)        if(verbosity > 0) fprintf(stdout, "[INFO]    " _fmt "... %s", ##__VA_ARGS__, (verbosity > 1 ? "\t("__FILE__":" LINE_STRING ")\n" : ""));
+#define LOG_INFO_OK()                         if(verbosity > 0) fprintf(stdout, "OK%s\n",(verbosity > 1 ? "\t("__FILE__":" LINE_STRING ")\n" : ""))
+
+
 #endif
 
 

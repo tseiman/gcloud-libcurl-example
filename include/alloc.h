@@ -26,9 +26,12 @@ int alloc_counter;
 })
 
 #define FREE(pointer) ({ \
-    --alloc_counter; \
-    if(pointer) free(pointer); \
-    MEM_DBG("Freeing at %p, still to free %d",pointer, alloc_counter); \
+    if(pointer) { \
+        --alloc_counter; \
+        free(pointer); \
+        MEM_DBG("Freeing at %p, still to free %d",pointer, alloc_counter); \
+        pointer = NULL; \
+    } else MEM_DBG("Pointer %p never allocated", pointer); \
 })
 
 #endif

@@ -1,3 +1,20 @@
+/** ***************************************************************************
+ *  ***************************************************************************
+ *
+ * base64url.c is part of the project: gcloud-libcurl-example 
+ * Project Page: https://github.com/tseiman/
+ * modified by: Thomas Schmidt
+ *
+ * Description:
+ *
+ * this Base64 implementation was updated to support Base64URL and normal Base64
+ *
+ * ****************************************************************************
+ * **************************************************************************** **/
+
+
+
+
 /*
  * Copyright (c) 2003 Apple Computer, Inc. All rights reserved.
  *
@@ -159,14 +176,20 @@ int Base64decode(char *bufplain, const char *bufcoded) {
   return nbytesdecoded;
 }
 
-static const char basis_64[] =
+static const char basis_64_url[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+
+static const char basis_64_norm[] =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 int Base64encode_len(int len) { return ((len + 2) / 3 * 4) + 1; }
 
-int Base64encode(char *encoded, const char *string, int len) {
+int Base64encodeWithType(char *encoded, const char *string, int len, int type) {
   int i;
   char *p;
+  const char *basis_64 = (type == BASE64_TYPE_NORM ? basis_64_norm : basis_64_url);
+
+
 
   p = encoded;
   for (i = 0; i < len - 2; i += 3) {
@@ -182,15 +205,22 @@ int Base64encode(char *encoded, const char *string, int len) {
     *p++ = basis_64[(string[i] >> 2) & 0x3F];
     if (i == (len - 1)) {
       *p++ = basis_64[((string[i] & 0x3) << 4)];
-  //    *p++ = '=';
+      if(type == BASE64_TYPE_NORM) *p++ = '=';
     } else {
       *p++ = basis_64[((string[i] & 0x3) << 4) |
                       ((int)(string[i + 1] & 0xF0) >> 4)];
       *p++ = basis_64[((string[i + 1] & 0xF) << 2)];
     }
-//    *p++ = '=';
+      if(type == BASE64_TYPE_NORM) *p++ = '=';
   }
 
   *p++ = '\0';
   return p - encoded;
+}
+
+int Base64encode(char * coded_dst, const char *plain_src,int len_plain_src) {
+  return Base64encodeWithType(coded_dst, plain_src, len_plain_src, BASE64_TYPE_NORM);
+}
+int Base64URLencode(char * coded_dst, const char *plain_src,int len_plain_src) {
+  return Base64encodeWithType(coded_dst, plain_src, len_plain_src, BASE64_TYPE_URL);
 }

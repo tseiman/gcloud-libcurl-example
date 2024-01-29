@@ -1,3 +1,17 @@
+/** ***************************************************************************
+ *  ***************************************************************************
+ *
+ * base64url.h is part of the project: gcloud-libcurl-example 
+ * Project Page: https://github.com/tseiman/
+ * modified by: Thomas Schmidt
+ *
+ * Description:
+ *
+ * this Base64 implementation was updated to support Base64URL and normal Base64
+ *
+ * ****************************************************************************
+ * **************************************************************************** **/
+
 /*
  * Copyright (c) 2003 Apple Computer, Inc. All rights reserved.
  *
@@ -88,8 +102,13 @@
 extern "C" {
 #endif
 
+#define BASE64_TYPE_NORM    1
+#define BASE64_TYPE_URL     0
+
 int Base64encode_len(int len);
 int Base64encode(char * coded_dst, const char *plain_src,int len_plain_src);
+int Base64URLencode(char * coded_dst, const char *plain_src,int len_plain_src);
+int Base64encodeWithType(char *encoded, const char *string, int len, int type);
 
 int Base64decode_len(const char * coded_src);
 int Base64decode(char * plain_dst, const char *coded_src);
