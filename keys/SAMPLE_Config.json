@@ -1,0 +1,15 @@
+{
+  "type": "service_account",
+  "project_id": "gcp-project-123456",
+  "private_key_id": "12345a1b2...",
+  "private_key": "-----BEGIN PRIVATE KEY-----\ns.....adfm123456789......\n-----END PRIVATE KEY-----\n",
+  "client_email": "gcp-service-account-123@gcp-project-123456.iam.gserviceaccount.com",
+  "client_id": "12345678909...",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://www.googleapis.com/oauth2/v4/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gcp-service-account-123%40gcp-project-123456.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com",
+  "scope": "https://www.googleapis.com/auth/pubsub",
+  "expire": 3600
+}
