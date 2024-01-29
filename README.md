@@ -20,8 +20,8 @@ further requirements
 * cmake
 
 # build
-Build the Application: ```cmake --build ./build --config Release --target all```__
-Clean the target: ```cmake --build ./build/ --target clean --```__
+Build the Application: ```cmake --build ./build --config Release --target all```  
+Clean the target: ```cmake --build ./build/ --target clean --```  
 
 # configure
 The JSON configuration file (a sample config file is in the "keys" folder) can be obtained from the service account console of GCP (**IAM & Admin --> Service Accounts  --> select service account --> Keys**).
