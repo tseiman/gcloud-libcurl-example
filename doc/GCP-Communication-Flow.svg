@@ -7,10 +7,15 @@
    viewBox="0 0 199.92253 179.47104"
    version="1.1"
    id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs1">
+    <color-profile
+       name="IBM-9497-T86A-Calibrated"
+       xlink:href="../Library/ColorSync/Profiles/IBM%209497%20T86A%20Calibrated.icc"
+       id="color-profile1" />
     <rect
        x="-46.983292"
        y="24.126554"
@@ -161,6 +166,47 @@
   <g
      id="layer1"
      transform="translate(-4.207865,-28.537096)">
+    <g
+       id="layer2">
+      <g
+         id="g13-9-0"
+         transform="matrix(1,0,0,0.99626168,-24.713661,106.95177)">
+        <rect
+           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.365001;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1.46, 1.46;stroke-dashoffset:0;stroke-opacity:1"
+           id="rect25"
+           width="199.90384"
+           height="179.74547"
+           x="28.96752"
+           y="-78.127144"
+           ry="0.73394877" />
+        <rect
+           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.446539;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="rect13-3-3"
+           width="40.988686"
+           height="24.861992"
+           x="109.7288"
+           y="47.170509"
+           ry="0.73394877" />
+        <text
+           xml:space="preserve"
+           style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+           x="131.30827"
+           y="54.704693"
+           id="text11-0-1"><tspan
+             style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+             x="131.30827"
+             y="54.704693"
+             id="tspan13-3-7">use token to</tspan><tspan
+             style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+             x="131.30827"
+             y="61.760242"
+             id="tspan14-9">call GCP API</tspan><tspan
+             style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+             x="131.30827"
+             y="68.815796"
+             id="tspan15-4">e.g. pub/sub</tspan></text>
+      </g>
+    </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.465;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:1.86, 0.93;stroke-dashoffset:0;stroke-opacity:1"
        d="M 68.731658,28.893665 V 207.63122"
@@ -447,36 +493,6 @@
        style="fill:none;stroke:#000000;stroke-width:0.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#ConcaveTriangle-0-1)"
        d="M 163.94337,167.92935 H 73.902648"
        id="path10-9-4" />
-    <g
-       id="g13-9-0"
-       transform="translate(-24.423682,106.66424)">
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.446539;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-         id="rect13-3-3"
-         width="40.988686"
-         height="24.861992"
-         x="109.7288"
-         y="47.170509"
-         ry="0.73394877" />
-      <text
-         xml:space="preserve"
-         style="font-size:5.64444px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
-         x="131.30827"
-         y="54.704693"
-         id="text11-0-1"><tspan
-           style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
-           x="131.30827"
-           y="54.704693"
-           id="tspan13-3-7">use token to</tspan><tspan
-           style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
-           x="131.30827"
-           y="61.760242"
-           id="tspan14-9">call GCP API</tspan><tspan
-           style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
-           x="131.30827"
-           y="68.815796"
-           id="tspan15-4">e.g. pub/sub</tspan></text>
-    </g>
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.44802;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect13-3-8"
@@ -507,6 +523,6 @@
        xml:space="preserve"
        transform="scale(0.26458333)"
        id="text23"
-       style="font-size:39.9999px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';white-space:pre;shape-inside:url(#rect23)" />
+       style="font-size:39.9999px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';white-space:pre;shape-inside:url(#rect23);display:inline" />
   </g>
 </svg>
