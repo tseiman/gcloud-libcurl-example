@@ -29,7 +29,6 @@ extern int verbosity;
 #define MSG_HELP(command) \
             "\n"                                                              \
             "-h                         Help (this print basically)\n"        \
-            "-p                         print JWT\n"                          \
             "-k <pathAndKeyfile>        give path to keyfile\n"               \
             "-v <level 0-3>             verbosity levelv 0= only errors\n"    \
             "                                            1= Info       \n"    \
