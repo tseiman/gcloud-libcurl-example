@@ -126,3 +126,43 @@ In this demo the schema for GCP PubSub looks as following:
 }
 ```
 **Schema is not a must on GCP for PubSub, however if it is enabled the data only accepted when is matching to the schema. If you change the optained datastructure and when you have enabled schemas in GCP PubSub you must adopt it accordingly**
+
+# Automatic run
+The example can be run by systemd or chron periodically - e.g. every 5 minutes.
+Example files and documentation how to achive this with systemd is part of this example.
+In the **./doc/** folder you can find the following files:
+```
+    gcloud-libcurl-example.service
+    gcloud-libcurl-example.timer
+```
+To enable periodic start by systemd add a linux user which runns the executeable with it's own rights:
+```shell
+    sudo useradd -M -r -s /bin/false -U gcloud-libcurl-example
+```
+create a folder in ```/etc``` for the example configuration:
+copy the just built example executeable ```/bin/gcloud-libcurl-example``` to a suitable binary folder, e.g. ```/usr/local/bin``` and ensure it is executable.
+```shell
+sudo mkdir /etc/gcloud-libcurl-example
+```
+Edit the sample configuration file from ```./keys/SAMPLE_Config.json``` or download a valid file from GCP service acount key section 
+(see Configure section above) and place it in ```/etc/gcloud-libcurl-example``` - make sure it gets the right access rights:
+```shell
+    sudo chown -R gcloud-libcurl-example:gcloud-libcurl-example /etc/gcloud-libcurl-example
+```
+Edit the ```gcloud-libcurl-example.service``` file and update the path to the binary and the configuration file. 
+You may change or add also the verbosity command line parameter (e.g. ```-v1```) - the output of the gcloud-libcurl-example can be obtained e.g. with ```journalctl -f```.
+Review ```gcloud-libcurl-example.timer``` for the timer interval (check with systemd timer service file documentation).
+Copy the both (timer and service) files to the systemd service file directory (e.g. ```/etc/systemd/system``` or ```/lib/systemd/system```):
+```shell
+    sudo cp doc/gcloud-libcurl-example.* /lib/systemd/system/
+```
+Verify your configuration:
+```shell
+    sudo systemd-analyze verify /lib/systemd/system/gcloud-libcurl-example.*
+```
+Enable the periodic call of the programm with the following commands:
+```shell
+    sudo systemctl start gcloud-libcurl-example.timer
+    sudo systemctl enable gcloud-libcurl-example.timer
+```
+Check with ```journalctl -f``` for any output of the example program.

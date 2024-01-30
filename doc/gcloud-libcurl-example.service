@@ -1,0 +1,12 @@
+[Unit]
+Description=A service file for the gcloud-libcurl-example
+Wants=gcloud-libcurl-example.timer
+
+[Service]
+ExecStart=/path/to/executeable/gcloud-libcurl-example -k /path/to/config/file.JSON
+Type=oneshot
+User=gcloud-libcurl-example
+Group=gcloud-libcurl-example
+
+[Install]
+WantedBy=multi-user.target
