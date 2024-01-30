@@ -1,7 +1,7 @@
 # gcloud-libcurl-example
-An example of how to upload JSON data into **G**oogle **C**loud **P**latform (GCP) Pub/Sub via HTTPS and service account key - implemented in C using libcurl and openssl
+An example of how to upload JSON data into **G**oogle **C**loud **P**latform (GCP) PubSub via HTTPS and service account key - implemented in C using libcurl and openssl
 
-This in "C" written example code shows how to authenticate against Google Cloud via a service account key and obtaining an OAuth2 token which is then used to send some test data in the GCP pub/sub.
+This in "C" written example code shows how to authenticate against Google Cloud via a service account key and obtaining an OAuth2 token which is then used to send some test data in the GCP PubSub.
 
 ![GCP authentication and communication flow](doc/GCP-Communication-Flow.svg)
 
@@ -79,7 +79,7 @@ The complete help screen looks like (```./cloud-libcurl-example -h```):
 
 # Data transmitted 
 In dataSource.c is a demo implementation of how Key Performance Indicators (KPIs) are obtained. To obtain other parameters it might be useful to change the code here.
-In this demo the schema for GCP pub/sub looks as following:
+In this demo the schema for GCP PubSub looks as following:
 
 ```json
 {
@@ -125,4 +125,4 @@ In this demo the schema for GCP pub/sub looks as following:
   ]
 }
 ```
-**Only if the data is matching to the schema - the data will be accepted in its configuration by the GCP instance**
+**Schema is not a must on GCP for PubSub, however if it is enabled the data only accepted when is matching to the schema. If you change the optained datastructure and when you have enabled schemas in GCP PubSub you must adopt it accordingly**
