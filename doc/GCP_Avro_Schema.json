@@ -1,0 +1,43 @@
+{
+    "type": "record",
+    "name": "Avro",
+    "fields": [
+      {
+        "name": "localtime",
+        "type": "long"
+      },
+      {
+        "name": "uptime",
+        "type": "long"
+      },
+      {
+        "name": "totalram",
+        "type": "long"
+      },
+      {
+        "name": "freeram",
+        "type": "long"
+      },
+      {
+        "name": "proc_count",
+        "type": "long"
+      },
+      {
+        "name": "loadavarage1",
+        "type": "long"
+      },
+      {
+        "name": "loadavarage5",
+        "type": "long"
+      },
+      {
+        "name": "loadavarage15",
+        "type": "long"
+      },
+      {
+        "name": "client_email",
+        "type": "string"
+      }
+    ]
+  }
+  

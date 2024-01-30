@@ -77,3 +77,52 @@ The complete help screen looks like (```./cloud-libcurl-example -h```):
       cloud-libcurl-example -k key/googleKey-1234.json
 ```
 
+# Data transmitted 
+In dataSource.c is a demo implementation of how Key Performance Indicators (KPIs) are obtained. To obtain other parameters it might be useful to change the code here.
+In this demo the schema for GCP pub/sub looks as following:
+
+```json
+{
+  "type": "record",
+  "name": "Avro",
+  "fields": [
+    {
+      "name": "localtime",
+      "type": "long"
+    },
+    {
+      "name": "uptime",
+      "type": "long"
+    },
+    {
+      "name": "totalram",
+      "type": "long"
+    },
+    {
+      "name": "freeram",
+      "type": "long"
+    },
+    {
+      "name": "proc_count",
+      "type": "long"
+    },
+    {
+      "name": "loadavarage1",
+      "type": "long"
+    },
+    {
+      "name": "loadavarage5",
+      "type": "long"
+    },
+    {
+      "name": "loadavarage15",
+      "type": "long"
+    },
+    {
+      "name": "client_email",
+      "type": "string"
+    }
+  ]
+}
+```
+**Only if the data is matching to the schema - the data will be accepted in its configuration by the GCP instance**
