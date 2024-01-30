@@ -10,7 +10,7 @@ For further information you may want to check:
 * https://curl.se/libcurl/c/
 * https://www.openssl.org/docs/
 
-# was tested with
+# Was tested with
 
 * OpenSSL 1.1.1
 * libcurl 7.58.0
@@ -19,11 +19,11 @@ further requirements
 
 * cmake
 
-# build
+# Build
 Build the Application: ```cmake --build ./build --config Release --target all```  
 Clean the target: ```cmake --build ./build/ --target clean --```  
 
-# configure
+# Configure
 The JSON configuration file (a sample config file is in the "keys" folder) can be obtained from the service account console of GCP (**IAM & Admin --> Service Accounts  --> select service account --> Keys**).
 The Service Account Keys console offers to download the Key file as **.p12** or as **.JSON** - select **JSON** the file has to be extended with the following parameters:
 
@@ -54,7 +54,7 @@ This measn that the JSON file, downloaded from GCP needs to be extended by that 
 ```
 
 
-# run
+# Run
 Required is the **-k <config file including absolute or relative path>**  pointing to the JSON configuration file.
 The application supports log level 0-3 given with the command line parameter **-v** e.g. ```-v3``` while the log levels correspond to:
 * 0 = no logging output - only error messages (written to STDERR). Data is collected and sent - succesful operation can be veryfied by the return code of the application.
