@@ -27,8 +27,9 @@ target_link_libraries(gcloud-libcurl-example ssl crypto)
 
 if(${OPENSSL_VERSION} VERSION_GREATER_EQUAL "3.0.0" ) 
   message(WARNING "Openssl 3.0.0 or greater detected")
+  add_compile_definitions(WITH_OPENSSL3)
 else()
-  message(WARNING "Openssl below 3.0.0 detected")
+  message(STATUS "Openssl below 3.0.0 detected")
 endif()
 
 find_package(CURL REQUIRED)

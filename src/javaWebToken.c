@@ -59,6 +59,7 @@
  *  EXIT_FAILURE (=1) if something failed
  * 
  **/
+#ifndef WITH_OPENSSL3
 int sign_data(const void *buf, size_t buf_len, void *pkey, size_t pkey_len, void **out_sig, size_t *out_sig_len) {
 
     int status = EXIT_SUCCESS;
@@ -104,6 +105,9 @@ SHA256_SIGN_ERROR:
 
     return status;
 }
+#else
+#endif
+
 
 /** ****************************************************************************
  * Function: 
