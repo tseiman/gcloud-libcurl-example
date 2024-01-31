@@ -43,20 +43,23 @@ extern int verbosity;
 #define PRINT_MSG_HELP_AND_EXIT(command)       printf(MSG_HELP(command)); exit(1);
 
 
-#define MEM_DBG(_fmt,...)         if(verbosity > 2) fprintf(stdout, "[MEM_DBG] " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , __FILE__, __LINE__)
-#define LOG_DEBUG(_fmt,...)       if(verbosity > 1) fprintf(stdout, "[DEBUG]   " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , __FILE__, __LINE__)
-#define LOG_INFO(_fmt,...)        if(verbosity > 0) fprintf(stdout, "[INFO]    " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , __FILE__, __LINE__)
-#define LOG_ERR(_fmt,...)         fprintf(stderr, "[ERROR]   " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , __FILE__, __LINE__)
+#define MEM_DBG(_fmt,...)         if(verbosity > 2) fprintf(stdout, "[MEM_DBG] " _fmt "\n", ##__VA_ARGS__  )
+#define LOG_DEBUG(_fmt,...)       if(verbosity > 1) fprintf(stdout, "[DEBUG]   " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , __FILE_NAME__, __LINE__)
+#define LOG_INFO(_fmt,...)        if(verbosity > 0) fprintf(stdout, "[INFO]    " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , ___FILE_NAME__, __LINE__)
+#define LOG_ERR(_fmt,...)         fprintf(stderr, "[ERROR]   " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , __FILE_NAME__, __LINE__)
+
+#define LOG_MEM_ERR(_fmt,...)         fprintf(stderr, "[ERROR]   " _fmt "\n", ##__VA_ARGS__ )
+
 
 #define STRINGIZE(x) STRINGIZE2(x)
 #define STRINGIZE2(x) #x
 #define LINE_STRING STRINGIZE(__LINE__)
 
-#define LOG_INFO_MSG_WITH_OK(_fmt,...)        if(verbosity > 0) fprintf(stdout, "[INFO]    " _fmt "... %s", ##__VA_ARGS__, (verbosity > 1 ? "\t("__FILE__":" LINE_STRING ")\n" : ""));
-#define LOG_INFO_OK()                         if(verbosity > 0) fprintf(stdout, "OK%s\n",  (verbosity > 1 ? "\t("__FILE__":" LINE_STRING ")\n" : ""))
-#define LOG_INFO_FAIL()                       if(verbosity > 0) fprintf(stdout, "FAIL%s\n",(verbosity > 1 ? "\t("__FILE__":" LINE_STRING ")\n" : ""))
+#define LOG_INFO_MSG_WITH_OK(_fmt,...)        if(verbosity > 0) fprintf(stdout, "[INFO]    " _fmt "... %s", ##__VA_ARGS__, (verbosity > 1 ? "\t("__FILE_NAME__":" LINE_STRING ")\n" : ""));
+#define LOG_INFO_OK()                         if(verbosity > 0) fprintf(stdout, "OK%s\n",  (verbosity > 1 ? "\t("__FILE_NAME__":" LINE_STRING ")\n" : ""))
+#define LOG_INFO_FAIL()                       if(verbosity > 0) fprintf(stdout, "FAIL%s\n",(verbosity > 1 ? "\t("__FILE_NAME__":" LINE_STRING ")\n" : ""))
 
-#define DBG_PRINT() fprintf(stdout, "[DEBUG PRINT]  %s:%d)\n", __FILE__, __LINE__)
+#define DBG_PRINT() fprintf(stdout, "[DEBUG PRINT]  %s:%d)\n", __FILE_NAME__, __LINE__)
 
 
 #define TRUE  (1==1)

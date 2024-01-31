@@ -21,30 +21,30 @@
 int alloc_counter;
 
 
-void *MALLOC(size_t size) {
+void *gcp_malloc(size_t size, char* caller, unsigned int line ) {
     void *pointer = NULL;
     ++alloc_counter; 
     if(! (pointer = malloc(size))) { 
-        LOG_ERR("was not able to allocate %ld bytes, failed", (long int) size);
-    } else MEM_DBG("Allocated %ld bytes at %p, %d different memory segments for different allocations allocated", (long int) size, pointer, alloc_counter);
+        LOG_MEM_ERR("was not able to allocate %ld bytes, failed. \t(%s:%d)" , (long int) size, caller, line);
+    } else MEM_DBG("Allocated %ld bytes at %p, %d different memory segments for different allocations allocated. \t(%s:%d)", (long int) size, pointer, alloc_counter, caller, line);
     return pointer;
 }
 
-void *REALLOC(void *p, size_t size) {
+void *gcp_realloc(void *p, size_t size, char* caller, unsigned int line ) {
     void  *pointer = NULL; 
     if(!p) ++alloc_counter; 
     if(! (pointer = realloc(p, size))) { 
-        LOG_ERR("was not able to re-allocate %ld bytes, failed", (long int) size); 
-    } else MEM_DBG("(Re-)Allocated %ld bytes at %p, %d different memory segments for different allocations allocated", (long int) size, pointer, alloc_counter); 
+        LOG_MEM_ERR("was not able to re-allocate %ld bytes, failed. \t(%s:%d)", (long int) size, caller, line); 
+    } else MEM_DBG("(Re-)Allocated %ld bytes at %p, %d different memory segments for different allocations allocated. \t(%s:%d)", (long int) size, pointer, alloc_counter, caller, line); 
     return pointer;
 }
 
-void FREE(void *p) { 
+void gcp_free(void *p, char* caller, unsigned int line ) { 
     if(p) { 
         --alloc_counter; 
         free(p); 
-        MEM_DBG("Freeing at %p, still to free %d",p, alloc_counter); 
+        MEM_DBG("Freeing at %p, still to free %d.  \t(%s:%d)",p, alloc_counter, caller, line); 
         p = NULL; 
-    } else MEM_DBG("Pointer %p never allocated", p); 
+    } else MEM_DBG("Pointer %p never allocated.  \t(%s:%d)", p, caller, line); 
 }
 
