@@ -9,6 +9,7 @@ project(
 
 set(SOURCES
   src/main.c
+  src/alloc.c
   src/htmlClient.c
   src/readJSON.c
   src/javaWebToken.c

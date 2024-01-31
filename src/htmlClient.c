@@ -19,11 +19,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <stdlib.h>
 
 #include "alloc.h"
 #include "htmlClient.h"
 #include "readJSON.h"
 #include "base64url.h"
+#include "messages.h"
 
 /* *************************************************************************** */
 
