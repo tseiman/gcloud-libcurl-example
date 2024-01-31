@@ -29,8 +29,8 @@
 
 /* *************************************************************************** */
 
-#define ERROR_EXIT(code) { LOG_ERR("ERROR can't proceed. Exiting function."); result=code; goto EXIT; }
-#define ERROR_EXIT_ENOMEM { LOG_ERR("ERROR can't proceed, can't allocate memory."); result=ENOMEM; goto EXIT; }
+#define WC_ERROR_EXIT(code) { LOG_ERR("ERROR can't proceed. Exiting function."); result=code; goto EXIT; }
+#define WC_ERROR_EXIT_ENOMEM { LOG_ERR("ERROR can't proceed, can't allocate memory."); result=ENOMEM; goto EXIT; }
 #define POST_JWT_PARAMETER "grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion="
 #define POST_GCP_AUTH_HEADER_FORMAT "Authorization: %s %s"
 #define POST_GCP_MESSAGE_FORMAT "{'messages': [{'data': '%s'}]}"
@@ -101,11 +101,11 @@ int httpPostJWT(char *jwt, t_Config *config, t_CloudSessionState *sessionState) 
 
     if (!curl) {
         LOG_ERR("Init of Curl failed");
-        ERROR_EXIT(ECANCELED);
+        WC_ERROR_EXIT(ECANCELED);
     }
 
 
-    if (!(postParam = MALLOC(strlen(reqParam) + strlen(jwt)))) ERROR_EXIT_ENOMEM;
+    if (!(postParam = MALLOC(strlen(reqParam) + strlen(jwt)))) WC_ERROR_EXIT_ENOMEM;
 
     strcpy(postParam, reqParam);
     strcat(postParam, jwt);
@@ -130,7 +130,7 @@ int httpPostJWT(char *jwt, t_Config *config, t_CloudSessionState *sessionState) 
 
     if (parseJWTTokenResponse(httpResultBuffer.response, sessionState)) {
         LOG_ERR("Parsing JSON Response on JWT Request failed.");
-        ERROR_EXIT(ECANCELED);
+        WC_ERROR_EXIT(ECANCELED);
     }
 
     result = EXIT_SUCCESS;
@@ -175,7 +175,7 @@ int httpPostData(char *data, t_Config *config, t_CloudSessionState *sessionState
 
     if (!curl) {
         LOG_ERR("Init of Curl failed");
-        ERROR_EXIT(ECANCELED);
+        WC_ERROR_EXIT(ECANCELED);
     }
     
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, http_cb);
@@ -186,7 +186,7 @@ int httpPostData(char *data, t_Config *config, t_CloudSessionState *sessionState
 
 
     strLen = snprintf(NULL, 0, POST_GCP_AUTH_HEADER_FORMAT, sessionState->token_type, sessionState->access_token);
-    if(! (postDataAuthHeaderBuffer = MALLOC(strLen + 2))) ERROR_EXIT_ENOMEM;
+    if(! (postDataAuthHeaderBuffer = MALLOC(strLen + 2))) WC_ERROR_EXIT_ENOMEM;
     snprintf(postDataAuthHeaderBuffer, strLen + 1, POST_GCP_AUTH_HEADER_FORMAT, sessionState->token_type, sessionState->access_token);
   
     headerList = curl_slist_append(headerList, "content-type: application/json");
@@ -194,12 +194,12 @@ int httpPostData(char *data, t_Config *config, t_CloudSessionState *sessionState
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headerList);
 
     strLen = Base64encode_len(strlen(data));
-    if(! (postDataB64Buffer = MALLOC(strLen))) ERROR_EXIT_ENOMEM;
+    if(! (postDataB64Buffer = MALLOC(strLen))) WC_ERROR_EXIT_ENOMEM;
     Base64encode(postDataB64Buffer,data,strlen(data));
 
 
     strLen = snprintf(NULL, 0, POST_GCP_MESSAGE_FORMAT, postDataB64Buffer);
-    if(! (postDataJSONBuffer = MALLOC(strLen + 2))) ERROR_EXIT_ENOMEM;
+    if(! (postDataJSONBuffer = MALLOC(strLen + 2))) WC_ERROR_EXIT_ENOMEM;
     snprintf(postDataJSONBuffer, strLen + 1, POST_GCP_MESSAGE_FORMAT, postDataB64Buffer);
 
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postDataJSONBuffer);  // configure the POST data
@@ -213,7 +213,7 @@ int httpPostData(char *data, t_Config *config, t_CloudSessionState *sessionState
 
     if(http_code != 200) {
         LOG_ERR("Error when publishing data: \n[ERROR]   %s\n[ERROR]   Response:\n[ERROR]   %s",data,httpResultBuffer.response);
-        ERROR_EXIT(ECANCELED);
+        WC_ERROR_EXIT(ECANCELED);
     }
 
 

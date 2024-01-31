@@ -34,6 +34,8 @@
 
 #define JWT_HEADER "{\"alg\":\"RS256\",\"typ\":\"JWT\"}"
 
+#define JWT_SIGN_ERROR_EXIT(msg) { LOG_ERR("ERROR processing JWT in " msg ".");  goto SHA256_SIGN_ERROR; }
+
 #define JWT_CONFIG_CHECK_STR(parameter)                                                                                                                                            \
     if (config->parameter == NULL) {                                                                                                                                               \
         LOG_ERR("\"" #parameter "\" is not defined - may it was missing in JSON config file ?");                                                                                   \
@@ -78,28 +80,25 @@ int sign_data(const void *buf, size_t buf_len, void *pkey, size_t pkey_len, void
     unsigned char digest[SHA256_DIGEST_LENGTH];
 
     rc = SHA256_Init(&sha_ctx);
-    if (1 != rc)
-        goto SHA256_SIGN_ERROR;
+    if (1 != rc) JWT_SIGN_ERROR_EXIT("SHA256_Init()");
 
     rc = SHA256_Update(&sha_ctx, buf, buf_len);
-    if (1 != rc)
-        goto SHA256_SIGN_ERROR;
+    if (1 != rc) JWT_SIGN_ERROR_EXIT("SHA256_Update()");
 
     rc = SHA256_Final(digest, &sha_ctx);
-    if (1 != rc)
-        goto SHA256_SIGN_ERROR;
+    if (1 != rc) JWT_SIGN_ERROR_EXIT("SHA256_Final()");
+
 
     b = BIO_new_mem_buf(pkey, pkey_len);
     r = PEM_read_bio_RSAPrivateKey(b, NULL, NULL, NULL);
 
     sig = MALLOC(RSA_size(r) + 1);
     sig[RSA_size(r) + 1] = '\0';
-    if (NULL == sig)
-        goto SHA256_SIGN_ERROR;
+    if (NULL == sig) JWT_SIGN_ERROR_EXIT("Malloc signature buffer");
+
 
     rc = RSA_sign(NID_sha256, digest, sizeof digest, sig, &sig_len, r);
-    if (1 != rc)
-        goto SHA256_SIGN_ERROR;
+    if (1 != rc) JWT_SIGN_ERROR_EXIT("RSA_sign()");
 
     *out_sig = sig;
 
@@ -130,38 +129,27 @@ int sign_data(const void *buf, size_t buf_len, void *pkey, size_t pkey_len, void
     EVP_PKEY *r;
 
     b = BIO_new_mem_buf(pkey, pkey_len);
-    if (!b)
-        goto SHA256_SIGN_ERROR;
+    if (!b) JWT_SIGN_ERROR_EXIT("BIO_new_mem_buf()");
 
     r = PEM_read_bio_PrivateKey(b, NULL, NULL, NULL);
+    if (!r) JWT_SIGN_ERROR_EXIT("PEM_read_bio_PrivateKey()");
 
-    if (!r)
-        goto SHA256_SIGN_ERROR;
-    if (EVP_PKEY_base_id(r) != EVP_PKEY_RSA) {
-        LOG_ERR("The given key is not a RSA type");
-        goto SHA256_SIGN_ERROR;
-    }
+    if (EVP_PKEY_base_id(r) != EVP_PKEY_RSA) JWT_SIGN_ERROR_EXIT("The given key is not a RSA type");
 
     /* Create the Message Digest Context */
-    if (!(mdctx = EVP_MD_CTX_create()))
-        goto SHA256_SIGN_ERROR;
+    if (!(mdctx = EVP_MD_CTX_create()))  JWT_SIGN_ERROR_EXIT("EVP_MD_CTX_create()");
     /* Initialise the DigestSign operation - SHA-256 has been selected as the message digest function in this example */
-    if (1 != EVP_DigestSignInit(mdctx, NULL, EVP_sha256(), NULL, r))
-        goto SHA256_SIGN_ERROR;
+    if (1 != EVP_DigestSignInit(mdctx, NULL, EVP_sha256(), NULL, r)) JWT_SIGN_ERROR_EXIT("EVP_DigestSignInit()");
     /* Call update with the message */
-    if (1 != EVP_DigestSignUpdate(mdctx, buf, buf_len))
-        goto SHA256_SIGN_ERROR;
+    if (1 != EVP_DigestSignUpdate(mdctx, buf, buf_len)) JWT_SIGN_ERROR_EXIT("EVP_DigestSignUpdate()");
     /* Finalise the DigestSign operation */
     /* First call EVP_DigestSignFinal with a NULL sig parameter to obtain the length of the
      * signature. Length is returned in slen */
-    if (1 != EVP_DigestSignFinal(mdctx, NULL, &sig_len))
-        goto SHA256_SIGN_ERROR;
+    if (1 != EVP_DigestSignFinal(mdctx, NULL, &sig_len)) JWT_SIGN_ERROR_EXIT("EVP_DigestSignFinal()");
     /* Allocate memory for the signature based on size in slen */
-    if (!(sig = MALLOC(sizeof(unsigned char) * sig_len)))
-        goto SHA256_SIGN_ERROR;
+    if (!(sig = MALLOC(sizeof(unsigned char) * sig_len))) JWT_SIGN_ERROR_EXIT("malloc for signature buffer failed");
     /* Obtain the signature */
-    if (1 != EVP_DigestSignFinal(mdctx, sig, &sig_len))
-        goto SHA256_SIGN_ERROR;
+    if (1 != EVP_DigestSignFinal(mdctx, sig, &sig_len)) JWT_SIGN_ERROR_EXIT("EVP_DigestSignFinal()");
     /* Success */
     status = EXIT_SUCCESS;
 
