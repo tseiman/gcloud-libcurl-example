@@ -8,7 +8,7 @@
  *
  * Description:
  *
- * Macros to handle Memory allocation - basically it helps in a very 
+ * Handling Memory allocation - basically it helps in a very 
  * simple way debugging of memory issues
  *
  * ****************************************************************************
