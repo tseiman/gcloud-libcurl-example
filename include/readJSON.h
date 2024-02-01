@@ -42,4 +42,6 @@ void cleanJSONConfig(t_Config *config);
 int parseJWTTokenResponse(char *buffer, t_CloudSessionState *sessionState);
 void cleanJWTTokenResponse(t_CloudSessionState *sessionState);
 
+int parsePublishResponse(char *jsonBuffer, t_CloudSessionState *sessionState);
+
 #endif

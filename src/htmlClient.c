@@ -118,13 +118,30 @@ int httpPostJWT(char *jwt, t_Config *config, t_CloudSessionState *sessionState) 
 
     res = curl_easy_perform(curl); // Perform the request, res will get the return code
 
-    if (res != CURLE_OK) // Check for errors
+    if (res != CURLE_OK) { // Check for errors
         LOG_ERR("curl_easy_perform()  failed: %s", curl_easy_strerror(res));
+         WC_ERROR_EXIT(ECANCELED);
+    }
 
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+    if(!http_code) {
+        LOG_ERR("HTTP Response Code invalid (0)");
+        WC_ERROR_EXIT(ECANCELED);
+    }
     LOG_DEBUG("JWT POSt HTTP Response Code %ld", http_code);
 
     curl_easy_cleanup(curl);
+
+
+    if(http_code != 200) {
+        LOG_ERR("Error when sending JWT data: \n[ERROR]   %s\n[ERROR]   Response:\n[ERROR]   %s", jwt, httpResultBuffer.response);
+        WC_ERROR_EXIT(ECANCELED);
+    }
+
+    if(!httpResultBuffer.response) {
+        LOG_ERR("HTTP Response buffer NULL");
+        WC_ERROR_EXIT(ECANCELED);
+    }
 
     LOG_DEBUG("HTTP Response: %s", httpResultBuffer.response);
 
@@ -205,10 +222,17 @@ int httpPostData(char *data, t_Config *config, t_CloudSessionState *sessionState
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postDataJSONBuffer);  // configure the POST data
     res = curl_easy_perform(curl);                          // Perform the request, res will get the return code
 
-    if (res != CURLE_OK) // Check for errors
+    if (res != CURLE_OK) { // Check for errors
         LOG_ERR("curl_easy_perform()  failed: %s", curl_easy_strerror(res));
+        WC_ERROR_EXIT(ECANCELED);
+    }
 
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+    if(!http_code) {
+        LOG_ERR("HTTP Response Code invalid (0)");
+        WC_ERROR_EXIT(ECANCELED);
+    }
+
     LOG_DEBUG("JWT POSt HTTP Response Code %ld", http_code);
 
     if(http_code != 200) {
@@ -216,8 +240,19 @@ int httpPostData(char *data, t_Config *config, t_CloudSessionState *sessionState
         WC_ERROR_EXIT(ECANCELED);
     }
 
-
+    if(!httpResultBuffer.response) {
+        LOG_ERR("HTTP Response buffer NULL");
+        WC_ERROR_EXIT(ECANCELED);
+    }
     LOG_DEBUG("HTTP Response: %s", httpResultBuffer.response);
+
+
+    if (parsePublishResponse(httpResultBuffer.response, sessionState)) {
+        LOG_ERR("Parsing JSON Response on HTTP POST Publish failed.");
+        WC_ERROR_EXIT(ECANCELED);
+    }
+
+
     result = EXIT_SUCCESS;
 EXIT:
     curl_easy_cleanup(curl);

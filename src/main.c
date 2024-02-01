@@ -109,6 +109,14 @@ int main(int argc, char **argv) {
     }
     LOG_INFO_OK();
 
+
+    LOG_INFO_MSG_WITH_OK("Got a message reponse with messageID=%lu", sessionState.messageID);
+    if (!sessionState.messageID) {
+        LOG_INFO_FAIL();
+        goto EXIT;
+    }
+    LOG_INFO_OK();
+
     result = EXIT_SUCCESS;
 EXIT:
     FREE(jwt);

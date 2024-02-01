@@ -24,6 +24,7 @@ struct CloudSessionState {
     char *access_token;
     char *token_type;
     unsigned long int expires_in;
+    unsigned long int messageID;
 };
 typedef struct CloudSessionState t_CloudSessionState;
 
