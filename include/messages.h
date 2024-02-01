@@ -43,6 +43,10 @@ extern int verbosity;
 #define PRINT_MSG_HELP_AND_EXIT(command)       printf(MSG_HELP(command)); exit(1);
 
 
+#ifndef __FILE_NAME__
+#define __FILE_NAME__ __FILE__
+#endif
+
 #define MEM_DBG(_fmt,...)         if(verbosity > 2) fprintf(stdout, "[MEM_DBG] " _fmt "\n", ##__VA_ARGS__  )
 #define LOG_DEBUG(_fmt,...)       if(verbosity > 1) fprintf(stdout, "[DEBUG]   " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , __FILE_NAME__, __LINE__)
 #define LOG_INFO(_fmt,...)        if(verbosity > 0) fprintf(stdout, "[INFO]    " _fmt "\t(%s:%d)\n", ##__VA_ARGS__  , ___FILE_NAME__, __LINE__)

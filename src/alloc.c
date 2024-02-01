@@ -45,6 +45,6 @@ void gcp_free(void *p, char* caller, unsigned int line ) {
         free(p); 
         MEM_DBG("Freeing at %p, still to free %d.  \t(%s:%d)",p, alloc_counter, caller, line); 
         p = NULL; 
-    } else MEM_DBG("Pointer %p never allocated.  \t(%s:%d)", p, caller, line); 
+    }
 }
 

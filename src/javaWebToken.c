@@ -66,57 +66,6 @@
  *  EXIT_FAILURE (=1) if something failed
  *
  **/
-#ifndef WITH_OPENSSL3 /* if we detected OpenSSL below 3.0.0 */
-int sign_data(const void *buf, size_t buf_len, void *pkey, size_t pkey_len, void **out_sig, size_t *out_sig_len) {
-
-    int status = EXIT_FAILURE;
-    int rc = 1;
-    BIO *b = NULL;
-    RSA *r = NULL;
-    unsigned char *sig = NULL;
-    unsigned int sig_len = 0;
-
-    SHA256_CTX sha_ctx = {0};
-    unsigned char digest[SHA256_DIGEST_LENGTH];
-
-    rc = SHA256_Init(&sha_ctx);
-    if (1 != rc) JWT_SIGN_ERROR_EXIT("SHA256_Init()");
-
-    rc = SHA256_Update(&sha_ctx, buf, buf_len);
-    if (1 != rc) JWT_SIGN_ERROR_EXIT("SHA256_Update()");
-
-    rc = SHA256_Final(digest, &sha_ctx);
-    if (1 != rc) JWT_SIGN_ERROR_EXIT("SHA256_Final()");
-
-
-    b = BIO_new_mem_buf(pkey, pkey_len);
-    r = PEM_read_bio_RSAPrivateKey(b, NULL, NULL, NULL);
-
-    sig = MALLOC(RSA_size(r) + 1);
-    sig[RSA_size(r) + 1] = '\0';
-    if (NULL == sig) JWT_SIGN_ERROR_EXIT("Malloc signature buffer");
-
-
-    rc = RSA_sign(NID_sha256, digest, sizeof digest, sig, &sig_len, r);
-    if (1 != rc) JWT_SIGN_ERROR_EXIT("RSA_sign()");
-
-    *out_sig = sig;
-
-    *out_sig_len = sig_len;
-
-    status = EXIT_SUCCESS;
-SHA256_SIGN_ERROR:
-    if (r) RSA_free(r);
-    if (b) BIO_free(b);
-    if (EXIT_SUCCESS != status)
-        FREE(sig); /* in case of failure: free allocated resource */
-    if (1 != rc)
-        LOG_ERR("OpenSSL error: %s", ERR_error_string(ERR_get_error(), NULL));
-
-    return status;
-}
-
-#else /* if we detected OpenSSL 3.0.0 and greater */
 
 int sign_data(const void *buf, size_t buf_len, void *pkey, size_t pkey_len, void **out_sig, size_t *out_sig_len) {
 
@@ -132,7 +81,7 @@ int sign_data(const void *buf, size_t buf_len, void *pkey, size_t pkey_len, void
     if (!b) JWT_SIGN_ERROR_EXIT("BIO_new_mem_buf()");
 
     r = PEM_read_bio_PrivateKey(b, NULL, NULL, NULL);
-    if (!r) JWT_SIGN_ERROR_EXIT("PEM_read_bio_PrivateKey()");
+    if (!r) JWT_SIGN_ERROR_EXIT("PEM_read_bio_PrivateKey() - is the private key from the configuration file ok ?");
 
     if (EVP_PKEY_base_id(r) != EVP_PKEY_RSA) JWT_SIGN_ERROR_EXIT("The given key is not a RSA type");
 
@@ -170,8 +119,6 @@ SHA256_SIGN_ERROR:
     }
     return status;
 }
-
-#endif
 
 /** ****************************************************************************
  * Function:

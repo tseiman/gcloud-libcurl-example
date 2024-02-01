@@ -17,10 +17,6 @@
 #ifndef ALLOC_H
 #define ALLOC_H
 
-#ifndef __FILE_NAME__
-#define __FILE_NAME__ __FILE__
-#endif
-
 #define MALLOC(size) gcp_malloc(size, __FILE_NAME__, __LINE__)
 #define REALLOC(p,size) gcp_realloc(p, size, __FILE_NAME__, __LINE__)
 #define FREE(p) gcp_free(p, __FILE_NAME__, __LINE__)
