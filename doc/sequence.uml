@@ -1,0 +1,17 @@
+@startuml
+participant "IoT Device\nAPIs"
+participant "IoT Device\nApp" #lightblue
+participant "GCP Auth\nServer"
+participant "GCP API\nservers"
+participant "GCP\nPub/Sub"
+database "GCP\nBigQuery"
+-> "IoT Device\nApp" : create and sing JWT 
+"IoT Device\nApp" -> "GCP Auth\nServer": use JWT to reques\ntOAuth2 token
+"IoT Device\nApp" <-- "GCP Auth\nServer": on success response\nwith OAuth2 token
+"IoT Device\nAPIs" <- "IoT Device\nApp"
+"IoT Device\nAPIs" -> "IoT Device\nApp": obtain KPIs\nfrom system API
+"IoT Device\nApp" -> "GCP API\nservers": use OAuth2 token\nto call GCP API (pub/sub),\ntransfering JSON message
+"IoT Device\nApp" <- "GCP API\nservers": response with MessageIDs
+"GCP API\nservers" ->  "GCP\nPub/Sub": publish\nmessage
+"GCP\nPub/Sub" -> "GCP\nBigQuery": check JSON\nschema and\ntransfer data
+@enduml
