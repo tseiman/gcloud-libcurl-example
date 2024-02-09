@@ -3,7 +3,7 @@ An example of how to upload JSON data into **G**oogle **C**loud **P**latform (GC
 
 This in "C" written example code shows how to authenticate against Google Cloud via a service account key and obtaining an OAuth2 token which is then used to send some test data in the GCP PubSub.
 
-![GCP authentication and communication flow](doc/GCP-Communication-Flow.svg)
+![GCP authentication and communication flow](doc/sequence.svg)
 
 For further information you may want to check:
 * https://developers.google.com/identity/protocols/oauth2/service-account#httprest
@@ -22,6 +22,7 @@ further requirements
 # Build
 Build the Application: ```cmake --build ./build --config Release --target all```  
 Clean the target: ```cmake --build ./build/ --target clean --```  
+For Documentation you might need to install plantuml  ```apt-get install plantuml```.
 
 # Configure
 The JSON configuration file (a sample config file is in the "keys" folder) can be obtained from the service account console of GCP (**IAM & Admin --> Service Accounts  --> select service account --> Keys**).
