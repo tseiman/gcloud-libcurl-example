@@ -19,6 +19,9 @@ further requirements
 
 * cmake
 
+optional
+* plantuml
+
 # Build
 Build the Application: ```cmake --build ./build --config Release --target all```  
 Clean the target: ```cmake --build ./build/ --target clean --```  
